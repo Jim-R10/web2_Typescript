@@ -1,5 +1,5 @@
-import { pool } from '../db';
-import { Student } from '../Model/student.ts';
+import { pool } from 'db';
+import { Student } from '../Model/student.js';
 
 export async function findAllStudents(): Promise<Student[]> {
   const result = await pool.query('SELECT * FROM students');

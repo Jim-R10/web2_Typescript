@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import * as studentService from '../service/studentService';
+import * as studentService from '../Service/studentService.js';
 
 const router = Router();
 

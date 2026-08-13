@@ -1,6 +1,6 @@
 import express from 'express';
-import studentController from './Controller/studentController';
-import { errorHandler } from './middleWares/errorHandlers';
+import studentController from './Controller/studentController.js';
+import { errorHandler } from './middleWares/errorHandlers.js';
 
 const app = express();
 

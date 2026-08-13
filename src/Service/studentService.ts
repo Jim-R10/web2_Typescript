@@ -1,5 +1,5 @@
-import { Student } from '../Model/student.ts';
-import * as studentRepository from '../Repository/studentRepository.ts';
+import { Student } from '../Model/student.js';
+import * as studentRepository from '../Repository/studentRepository.js';
 
 export async function getAllStudents(): Promise<Student[]> {
   const students = await studentRepository.findAllStudents();
