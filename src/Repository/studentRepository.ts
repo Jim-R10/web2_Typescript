@@ -1,4 +1,4 @@
-import { pool } from 'db';
+import { pool } from '../db.js';
 import { Student } from '../Model/student.js';
 
 export async function findAllStudents(): Promise<Student[]> {
