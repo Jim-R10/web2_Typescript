@@ -91,3 +91,12 @@ export async function deleteStudent(id: string): Promise<void> {
     throw error;
   }
 }
+
+export const studentService = {
+  getAll: getAllStudents,
+  getById: getStudentById,
+  create: createStudent,
+  replace: replaceStudent,
+  update: patchStudent,
+  remove: deleteStudent
+};
