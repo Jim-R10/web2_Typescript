@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { AuthService } from '../Service/AuthService';
 
 async function register(req: Request, res: Response, next: NextFunction) {
@@ -23,3 +23,10 @@ export const AuthController = {
   register: register,
   login: login
 };
+
+const router = Router();
+
+router.post('/register', register);
+router.post('/login', login);
+
+export default router;
