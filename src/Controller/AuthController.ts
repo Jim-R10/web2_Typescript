@@ -1,5 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { AuthService } from '../Service/AuthService';
+import { AuthService } from '../Service/AuthService.js';
 
 async function register(req: Request, res: Response, next: NextFunction) {
   try {

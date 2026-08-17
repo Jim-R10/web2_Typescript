@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { studentService } from '../Service/studentService';
-import { verifierToken } from '../middleWares/AuthMiddleware';
+import { studentService } from '../Service/studentService.js';
+import { verifierToken } from '../middleWares/AuthMiddleware.js';
 
 async function getAll(req: Request, res: Response, next: NextFunction) {
   try {

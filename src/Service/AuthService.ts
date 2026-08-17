@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { UserRepository } from '../Repository/UserRepository';
+import { UserRepository } from '../Repository/UserRepository.js';
 import { RegisterInput, LoginInput } from '../Model/User';
 
 

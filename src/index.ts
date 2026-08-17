@@ -3,9 +3,9 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import authController from './Controller/AuthController';
-import studentController from './Controller/studentController';
-import { errorHandler } from './middleWares/errorHandlers';
+import authController from './Controller/AuthController.js';
+import studentController from './Controller/studentController.js';
+import { errorHandler } from './middleWares/errorHandlers.js';
 
 const app = express();
 
