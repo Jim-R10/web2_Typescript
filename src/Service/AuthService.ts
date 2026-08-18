@@ -13,7 +13,7 @@ function creerErreur(message: string, status: number): any {
 }
 
 
-async function register(input: RegisterInput) {
+const register = async(input: RegisterInput) => {
   if (!input.email || !input.password) {
     throw creerErreur('Email et mot de passe requis', 400);
   }
@@ -36,7 +36,7 @@ async function register(input: RegisterInput) {
 }
 
 
-async function login(input: LoginInput) {
+const login = async(input: LoginInput) => {
   const utilisateur = UserRepository.findByEmail(input.email);
 
   if (utilisateur === undefined) {

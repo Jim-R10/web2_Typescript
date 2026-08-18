@@ -6,7 +6,7 @@ export async function getAllStudents(): Promise<Student[]> {
   return students;
 }
 
-export async function getStudentById(id: string): Promise<Student> {
+export const getStudentById = async(id: string): Promise<Student> => {
   const student = await studentRepository.findStudentById(id);
 
   if (student === undefined) {
@@ -18,7 +18,7 @@ export async function getStudentById(id: string): Promise<Student> {
   return student;
 }
 
-export async function createStudent(firstName: string, lastName: string, email: string): Promise<Student> {
+export const createStudent = async(firstName: string, lastName: string, email: string): Promise<Student> => {
   if (firstName === undefined || lastName === undefined || email === undefined) {
     const error: any = new Error('The fields firstName, lastName and email are required');
     error.status = 400;
@@ -30,7 +30,7 @@ export async function createStudent(firstName: string, lastName: string, email: 
   return newStudent;
 }
 
-export async function replaceStudent(id: string, firstName: string, lastName: string, email: string): Promise<Student> {
+export const replaceStudent = async(id: string, firstName: string, lastName: string, email: string): Promise<Student> => {
   if (firstName === undefined || lastName === undefined || email === undefined) {
     const error: any = new Error('PUT requires all the fields : firstName, lastName, email');
     error.status = 400;
@@ -48,7 +48,7 @@ export async function replaceStudent(id: string, firstName: string, lastName: st
   return updatedStudent;
 }
 
-export async function patchStudent(id: string, firstName: string | undefined, lastName: string | undefined, email: string | undefined): Promise<Student> {
+export const patchStudent = async(id: string, firstName: string | undefined, lastName: string | undefined, email: string | undefined): Promise<Student> => {
   const existingStudent = await studentRepository.findStudentById(id);
 
   if (existingStudent === undefined) {
@@ -82,7 +82,7 @@ export async function patchStudent(id: string, firstName: string | undefined, la
   return updatedStudent;
 }
 
-export async function deleteStudent(id: string): Promise<void> {
+export const deleteStudent = async(id: string): Promise<void> => {
   const wasDeleted = await studentRepository.deleteStudent(id);
 
   if (wasDeleted === false) {

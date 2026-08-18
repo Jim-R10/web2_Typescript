@@ -6,7 +6,7 @@ export interface RequeteAvecUtilisateur extends Request {
   userId?: string;
 }
 
-export function verifierToken(req: RequeteAvecUtilisateur, res: Response, next: NextFunction) {
+export const verifierToken = (req: RequeteAvecUtilisateur, res: Response, next: NextFunction) => {
   const headerAutorisation = req.headers.authorization;
 
   if (headerAutorisation === undefined) {

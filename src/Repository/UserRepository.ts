@@ -3,7 +3,7 @@ import { User } from '../Model/User';
 
 let users: User[] = [];
 
-function findByEmail(email: string): User | undefined {
+const findByEmail = (email: string): User | undefined => {
   let foundUser: User | undefined = undefined;
 
   for (let i = 0; i < users.length; i++) {
@@ -15,7 +15,7 @@ function findByEmail(email: string): User | undefined {
   return foundUser;
 }
 
-function create(email: string, passwordHash: string): User {
+const create = (email: string, passwordHash: string): User => {
   const newUser: User = {
     id: randomUUID(),
     email: email,

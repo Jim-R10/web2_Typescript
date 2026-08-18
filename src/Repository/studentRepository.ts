@@ -1,7 +1,7 @@
 import { pool } from '../db.js';
 import { Student } from '../Model/student.js';
 
-export async function findAllStudents(): Promise<Student[]> {
+export const findAllStudents = async(): Promise<Student[]> => {
   const result = await pool.query('SELECT * FROM students');
 
   const students: Student[] = [];
@@ -22,7 +22,7 @@ export async function findAllStudents(): Promise<Student[]> {
   return students;
 }
 
-export async function findStudentById(id: string): Promise<Student | undefined> {
+export const findStudentById = async(id: string): Promise<Student | undefined> => {
   const result = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
 
   if (result.rows.length === 0) {
@@ -41,7 +41,7 @@ export async function findStudentById(id: string): Promise<Student | undefined> 
   return student;
 }
 
-export async function createStudent(firstName: string, lastName: string, email: string): Promise<Student> {
+export const createStudent = async(firstName: string, lastName: string, email: string): Promise<Student> => {
   const result = await pool.query(
     'INSERT INTO students (first_name, last_name, email) VALUES ($1, $2, $3) RETURNING *',
     [firstName, lastName, email]
@@ -59,7 +59,7 @@ export async function createStudent(firstName: string, lastName: string, email: 
   return student;
 }
 
-export async function updateStudent(id: string, firstName: string, lastName: string, email: string): Promise<Student | undefined> {
+export const updateStudent = async(id: string, firstName: string, lastName: string, email: string): Promise<Student | undefined> => {
   const result = await pool.query(
     'UPDATE students SET first_name = $1, last_name = $2, email = $3 WHERE id = $4 RETURNING *',
     [firstName, lastName, email, id]
@@ -81,7 +81,7 @@ export async function updateStudent(id: string, firstName: string, lastName: str
   return student;
 }
 
-export async function deleteStudent(id: string): Promise<boolean> {
+export const deleteStudent = async(id: string): Promise<boolean> => {
   const result = await pool.query('DELETE FROM students WHERE id = $1', [id]);
 
   if (result.rowCount === 0) {
