@@ -1,5 +1,6 @@
 import { pool } from '../db.js';
 import { Student } from '../Model/student.js';
+import { randomUUID } from 'crypto';
 
 export const findAllStudents = async(): Promise<Student[]> => {
   const result = await pool.query('SELECT * FROM students');
@@ -42,21 +43,21 @@ export const findStudentById = async(id: string): Promise<Student | undefined> =
 }
 
 export const createStudent = async(firstName: string, lastName: string, email: string): Promise<Student> => {
+  const id = randomUUID();
+  
   const result = await pool.query(
-    'INSERT INTO students (first_name, last_name, email) VALUES ($1, $2, $3) RETURNING *',
-    [firstName, lastName, email]
+    'INSERT INTO students (id, first_name, last_name, email) VALUES ($1, $2, $3, $4) RETURNING *',
+    [id, firstName, lastName, email]
   );
 
   const row = result.rows[0];
 
-  const student: Student = {
+  return {
     id: row.id,
     firstName: row.first_name,
     lastName: row.last_name,
     email: row.email
   };
-
-  return student;
 }
 
 export const updateStudent = async(id: string, firstName: string, lastName: string, email: string): Promise<Student | undefined> => {
