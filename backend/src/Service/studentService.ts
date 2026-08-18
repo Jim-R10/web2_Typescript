@@ -2,36 +2,33 @@ import { Student } from '../Model/student.js';
 import * as studentRepository from '../Repository/studentRepository.js';
 
 export async function getAllStudents(): Promise<Student[]> {
-  const students = await studentRepository.findAllStudents();
-  return students;
+  return await studentRepository.findAllStudents();
 }
 
-export const getStudentById = async(id: string): Promise<Student> => {
+export const getStudentById = async (id: string): Promise<Student> => {
   const student = await studentRepository.findStudentById(id);
 
-  if (student === undefined) {
+  if (!student) {
     const error: any = new Error('Student not found');
     error.status = 404;
     throw error;
   }
 
   return student;
-}
+};
 
-export const createStudent = async(firstName: string, lastName: string, email: string): Promise<Student> => {
-  if (firstName === undefined || lastName === undefined || email === undefined) {
+export const createStudent = async (firstName: string, lastName: string, email: string): Promise<Student> => {
+  if (!firstName || !lastName || !email) {
     const error: any = new Error('The fields firstName, lastName and email are required');
     error.status = 400;
     throw error;
   }
 
-  const newStudent = await studentRepository.createStudent(firstName, lastName, email);
+  return await studentRepository.createStudent(firstName, lastName, email);
+};
 
-  return newStudent;
-}
-
-export const replaceStudent = async(id: string, firstName: string, lastName: string, email: string): Promise<Student> => {
-  if (firstName === undefined || lastName === undefined || email === undefined) {
+export const replaceStudent = async (id: string, firstName: string, lastName: string, email: string): Promise<Student> => {
+  if (!firstName || !lastName || !email) {
     const error: any = new Error('PUT requires all the fields : firstName, lastName, email');
     error.status = 400;
     throw error;
@@ -39,58 +36,54 @@ export const replaceStudent = async(id: string, firstName: string, lastName: str
 
   const updatedStudent = await studentRepository.updateStudent(id, firstName, lastName, email);
 
-  if (updatedStudent === undefined) {
+  if (!updatedStudent) {
     const error: any = new Error('Student not found');
     error.status = 404;
     throw error;
   }
 
   return updatedStudent;
-}
+};
 
-export const patchStudent = async(id: string, firstName: string | undefined, lastName: string | undefined, email: string | undefined): Promise<Student> => {
+export const patchStudent = async (
+  id: string,
+  firstName?: string,
+  lastName?: string,
+  email?: string
+): Promise<Student> => {
   const existingStudent = await studentRepository.findStudentById(id);
 
-  if (existingStudent === undefined) {
+  if (!existingStudent) {
     const error: any = new Error('Student not found');
     error.status = 404;
     throw error;
   }
 
-  let newFirstName = existingStudent.firstName;
-  let newLastName = existingStudent.lastName;
-  let newEmail = existingStudent.email;
-
-  if (firstName !== undefined) {
-    newFirstName = firstName;
-  }
-  if (lastName !== undefined) {
-    newLastName = lastName;
-  }
-  if (email !== undefined) {
-    newEmail = email;
-  }
+  // Utilisation de l'opérateur ?? pour simplifier la fusion des champs
+  const newFirstName = firstName ?? existingStudent.firstName;
+  const newLastName = lastName ?? existingStudent.lastName;
+  const newEmail = email ?? existingStudent.email;
 
   const updatedStudent = await studentRepository.updateStudent(id, newFirstName, newLastName, newEmail);
 
-  if (updatedStudent === undefined) {
+  if (!updatedStudent) {
     const error: any = new Error('Student not found');
     error.status = 404;
     throw error;
   }
 
   return updatedStudent;
-}
+};
 
-export const deleteStudent = async(id: string): Promise<void> => {
+export const deleteStudent = async (id: string): Promise<void> => {
   const wasDeleted = await studentRepository.deleteStudent(id);
 
-  if (wasDeleted === false) {
+  if (!wasDeleted) {
     const error: any = new Error('Student not found');
     error.status = 404;
     throw error;
   }
-}
+};
 
 export const studentService = {
   getAll: getAllStudents,
