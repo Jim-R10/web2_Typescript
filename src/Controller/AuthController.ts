@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { AuthService } from '../Service/AuthService.js';
 
-async function register(req: Request, res: Response, next: NextFunction) {
+const register = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const resultat = await AuthService.register(req.body);
     res.status(201).json(resultat);
@@ -10,7 +10,7 @@ async function register(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function login(req: Request, res: Response, next: NextFunction) {
+const login = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const resultat = await AuthService.login(req.body);
     res.status(200).json(resultat);
