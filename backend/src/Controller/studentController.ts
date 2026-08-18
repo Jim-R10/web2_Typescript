@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { studentService } from '../Service/studentService.js';
-import { verifyToken } from '../middleWares/AuthMiddleware.js';
+import { verifyToken, requireRole } from '../middleWares/AuthMiddleware.js';
 
 const getAll = async(req: Request, res: Response, next: NextFunction) => {
   try {
@@ -72,9 +72,9 @@ const router = Router();
 
 router.get('/', verifyToken, getAll);
 router.get('/:id', verifyToken, getById);
-router.post('/', verifyToken, create);
-router.put('/:id', verifyToken, replace);
-router.patch('/:id', verifyToken, update);
-router.delete('/:id', verifyToken, remove);
+router.post('/', verifyToken, requireRole(['teacher']), create);
+router.put('/:id', verifyToken, requireRole(['teacher']), replace);
+router.patch('/:id', verifyToken, requireRole(['teacher']), update);
+router.delete('/:id', verifyToken, requireRole(['teacher']), remove);
 
 export default router;
