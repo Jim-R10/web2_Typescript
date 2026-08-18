@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { studentService } from '../Service/studentService.js';
 import { verifierToken } from '../middleWares/AuthMiddleware.js';
 
-async function getAll(req: Request, res: Response, next: NextFunction) {
+const getAll = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const students = await studentService.getAll();
     res.status(200).json(students);
@@ -11,7 +11,7 @@ async function getAll(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function getById(req: Request, res: Response, next: NextFunction) {
+const getById = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const student = await studentService.getById(req.params.id as string);
     res.status(200).json(student);
@@ -20,7 +20,7 @@ async function getById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function create(req: Request, res: Response, next: NextFunction) {
+const create = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -33,7 +33,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function replace(req: Request, res: Response, next: NextFunction) {
+const replace = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -46,7 +46,7 @@ async function replace(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function update(req: Request, res: Response, next: NextFunction) {
+const update = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -59,7 +59,7 @@ async function update(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-async function remove(req: Request, res: Response, next: NextFunction) {
+const remove = async(req: Request, res: Response, next: NextFunction) => {
   try {
     await studentService.remove(req.params.id as string);
     res.status(204).send();
