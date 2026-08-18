@@ -5,49 +5,48 @@ import { RegisterInput, LoginInput } from '../Model/User.js';
 
 const SECRET_KEY: string = process.env.JWT_SECRET || 'vomangabe_secret_key';
 
-function creerErreur(message: string, status: number): any {
-  const erreur: any = new Error(message);
-  erreur.status = status;
-  return erreur;
+const createError = (message: string, status: number): any => {
+  const error: any = new Error(message);
+  error.status = status;
+  return error;
 }
 
 const register = async (input: RegisterInput) => {
   if (!input.email || !input.password) {
-    throw creerErreur('Email et mot de passe requis', 400);
+    throw createError('Email et mot de passe requis', 400);
   }
 
-  const utilisateurExistant = UserRepository.findByEmail(input.email);
-  if (utilisateurExistant !== undefined) {
-    throw creerErreur('Cet email est déjà utilisé', 400);
+  const ExistantUser = UserRepository.findByEmail(input.email);
+  if (ExistantUser !== undefined) {
+    throw createError('Cet email est déjà utilisé', 400);
   }
 
   const passwordHash = await bcrypt.hash(input.password, 10);
   const userRole = input.role || 'student';
 
-  const nouvelUtilisateur = UserRepository.create(input.email, passwordHash, userRole);
+  const newUser = UserRepository.create(input.email, passwordHash, userRole);
 
   return {
-    id: nouvelUtilisateur.id,
-    email: nouvelUtilisateur.email,
-    role: nouvelUtilisateur.role
+    id: newUser.id,
+    email: newUser.email,
+    role: newUser.role
   };
 };
 
 const login = async (input: LoginInput) => {
-  const utilisateur = UserRepository.findByEmail(input.email);
+  const user = UserRepository.findByEmail(input.email);
 
-  if (utilisateur === undefined) {
-    throw creerErreur('Email ou mot de passe incorrect', 401);
+  if (user === undefined) {
+    throw createError('Email ou mot de passe incorrect', 401);
   }
 
-  const motDePasseValide = await bcrypt.compare(input.password, utilisateur.passwordHash);
-  if (!motDePasseValide) {
-    throw creerErreur('Email ou mot de passe incorrect', 401);
+  const invalidPassword = await bcrypt.compare(input.password, user.passwordHash);
+  if (!invalidPassword) {
+    throw createError('Email ou mot de passe incorrect', 401);
   }
 
-  // Ajout du champ role dans le payload JWT
   const token = jwt.sign(
-    { userId: utilisateur.id, email: utilisateur.email, role: utilisateur.role },
+    { userId: user.id, email: user.email, role: user.role },
     SECRET_KEY,
     { expiresIn: '1h' }
   );

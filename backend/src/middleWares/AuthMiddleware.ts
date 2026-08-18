@@ -7,42 +7,42 @@ export interface RequeteAvecUtilisateur extends Request {
   userRole?: 'student' | 'teacher';
 }
 
-export const verifierToken = (req: RequeteAvecUtilisateur, res: Response, next: NextFunction) => {
+export const verifyToken = (req: RequeteAvecUtilisateur, res: Response, next: NextFunction) => {
   const headerAutorisation = req.headers.authorization;
 
   if (!headerAutorisation) {
-    const erreur: any = new Error('Token manquant, connexion requise');
-    erreur.status = 401;
-    return next(erreur);
+    const error: any = new Error('Token missing, connexion required');
+    error.status = 401;
+    return next(error);
   }
 
-  const morceaux = headerAutorisation.split(' ');
-  const token = morceaux[1];
+  const peaces = headerAutorisation.split(' ');
+  const token = peaces[1];
 
   if (!token) {
-    const erreur: any = new Error('Format du token invalide (Format attendu: Bearer <token>)');
-    erreur.status = 401;
-    return next(erreur);
+    const error: any = new Error('Invalid token format (Format: Bearer <token>)');
+    error.status = 401;
+    return next(error);
   }
 
   try {
-    const donneesDecodees: any = jwt.verify(token, AuthService.SECRET_KEY);
-    req.userId = donneesDecodees.userId;
-    req.userRole = donneesDecodees.role;
+    const codeofdata: any = jwt.verify(token, AuthService.SECRET_KEY);
+    req.userId = codeofdata.userId;
+    req.userRole = codeofdata.role;
     next();
   } catch (erreurJwt) {
-    const erreur: any = new Error('Token invalide ou expiré');
-    erreur.status = 401;
-    next(erreur);
+    const error: any = new Error('Invalid or expired token');
+    error.status = 401;
+    next(error);
   }
 };
 
-export const exigerRole = (rolesAutorises: Array<'student' | 'teacher'>) => {
+export const requireRole = (rolesAutorises: Array<'student' | 'teacher'>) => {
   return (req: RequeteAvecUtilisateur, res: Response, next: NextFunction) => {
     if (!req.userRole || !rolesAutorises.includes(req.userRole)) {
-      const erreur: any = new Error("Accès refusé: privilèges insuffisants");
-      erreur.status = 403;
-      return next(erreur);
+      const error: any = new Error("Access denied: insufficient privileges");
+      error.status = 403;
+      return next(error);
     }
     next();
   };
