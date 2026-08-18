@@ -3,19 +3,19 @@ import { AuthService } from '../Service/AuthService.js';
 
 const register = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    const resultat = await AuthService.register(req.body);
-    res.status(201).json(resultat);
-  } catch (erreur) {
-    next(erreur);
+    const result = await AuthService.register(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
   }
 }
 
 const login = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    const resultat = await AuthService.login(req.body);
-    res.status(200).json(resultat);
-  } catch (erreur) {
-    next(erreur);
+    const result = await AuthService.login(req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
   }
 }
 
