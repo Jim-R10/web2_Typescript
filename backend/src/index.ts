@@ -16,12 +16,12 @@ app.use(
   })
 );
 
-app.use(errorHandler);
 app.use(express.json());
 
 app.use('/auth', authController);
 app.use('/students', studentController);
 
+app.use(errorHandler);
 
 const PORT = Number(process.env.PORT) || 3000;
 
